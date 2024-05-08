@@ -1,1 +1,53 @@
 #!/usr/bin/env python
+
+from langchain_community.llms import Ollama
+import git
+import pathlib
+
+model = "codegemma:latest"
+llama_url = "http://localhost:11434"
+ollama = Ollama(base_url=llama_url, model=model)
+
+def explain_diff(diff):
+    content = diff[0]["content"]
+    systemPrompt = f"""    
+    Only use the following information to answer the question. 
+    - Do not use anything else
+    - Do not use your own knowledge.
+    - Do not use your own opinion.
+    - Do not use anything that is not in the diff.
+    - Don not use the character `"` or `'` in your answer.
+    - Be as concise as possible.
+    - Be as specific as possible.
+    - Be as accurate as possible.
+    Task: Write a git commit message for the following diff
+    ```
+    {content}
+    ```
+    """
+    return ollama(systemPrompt)
+
+def staged_diffs(path: str):
+    print(path)
+    modified_files = []
+    try:
+        repo = git.Repo(path)
+        for diff in repo.index.diff(None).iter_change_type("M"):
+            content = diff.a_blob.data_stream.read().decode('utf-8')
+            if not content:
+                continue
+            modified_files.append({
+                "path": diff.a_path,
+                "content": content
+            })
+
+        return modified_files
+
+    except git.InvalidGitRepositoryError:
+        print(f"Error: {path} is not a valid Git repository.")
+    except git.NoSuchPathError:
+        print(f"Error: {path} does not exist.")
+
+diff = staged_diffs(pathlib.Path(__file__).parent)
+print(diff)
+print(explain_diff(diff))
