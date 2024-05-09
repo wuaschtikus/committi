@@ -4,7 +4,7 @@ from langchain_community.llms import Ollama
 import git
 import pathlib
 
-model = "codegemma:latest"
+model = "tavernari/git-commit-message"
 llama_url = "http://localhost:11434"
 ollama = Ollama(base_url=llama_url, model=model)
 
@@ -50,4 +50,4 @@ def staged_diffs(path: str):
 
 diff = staged_diffs(pathlib.Path(__file__).parent)
 print(diff)
-print(explain_diff(diff))
+print('ollama: ' + explain_diff(diff))
