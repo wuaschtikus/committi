@@ -10,8 +10,9 @@ model = "tavernari/git-commit-message"
 llama_url = "http://localhost:11434"
 ollama = Ollama(base_url=llama_url, model=model)
 
+
 def explain_diff(diff):
-    content = diff[0]["content"]
+    content = diff
     systemPrompt = f"""    
     Only use the following information to answer the question. 
     - Do not use anything else
@@ -30,46 +31,6 @@ def explain_diff(diff):
     return ollama(systemPrompt)
 
 
-def staged_diffs(path: str):
-    print(path)
-    modified_files = []
-    try:
-        repo = git.Repo(path)
-        for diff in repo.index.diff(None).iter_change_type("M"):
-            content = diff.a_blob.data_stream.read().decode('utf-8')
-            if not content:
-                continue
-            modified_files.append({
-                "path": diff.a_path,
-                "content": content
-            })
-            
-        for diff in repo.index.diff(None).iter_change_type("A"):
-            content = diff.a_blob.data_stream.read().decode('utf-8')
-            if not content:
-                continue
-            modified_files.append({
-                "path": diff.a_path,
-                "content": content
-            })
-        
-        for diff in repo.index.diff(None).iter_change_type("D"):
-            content = diff.a_blob.data_stream.read().decode('utf-8')
-            if not content:
-                continue
-            modified_files.append({
-                "path": diff.a_path,
-                "content": content
-            })
-
-        return modified_files
-
-    except git.InvalidGitRepositoryError:
-        print(f"Error: {path} is not a valid Git repository.")
-    except git.NoSuchPathError:
-        print(f"Error: {path} does not exist.")
-
-
-diff = staged_diffs(pathlib.Path(__file__).parent)
-print(diff)
+repo = git.Repo(pathlib.Path(__file__).parent.parent.paren)
+diff = pathlib.Path(__file__).parent.parent.paren
 print(explain_diff(diff))
