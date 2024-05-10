@@ -11,6 +11,7 @@ Uses `tavernari/git-commit-message` as model.
 # Installation 
 - install ollama from https://ollama.com
 - make sure ollama runs by `ollama serve`
+- pull ollama model `ollama pull tavernari/git-commit-message`
 - install python packages
 `pip install langchain_community` 
 `pip install gitpython`
