@@ -32,7 +32,7 @@ def explain_diff(diff):
 
 
 repoPath = pathlib.Path(__file__).parent
-spinner = Halo(text='Processing repository...', spinner='dots')
+spinner = Halo(text='Creare git commit...', spinner='line')
 spinner.start()
 if repoPath.name == "hooks":
     repoPath = repoPath.parent.parent
