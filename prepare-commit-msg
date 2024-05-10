@@ -4,6 +4,7 @@ import sys
 from langchain_community.llms import Ollama
 import git
 import pathlib
+from halo import Halo
 
 model = "tavernari/git-commit-message"
 llama_url = "http://localhost:11434"
@@ -32,6 +33,8 @@ def explain_diff(diff):
 
 repoPath = pathlib.Path(__file__).parent
 if repoPath.suffix == "hooks":
+    spinner = Halo(text='Processing repository...', spinner='dots')
+    spinner.start()
     repoPath = repoPath.parent
     repo = git.Repo(repoPath)
     diff = repo.git.diff(repo.commit())
