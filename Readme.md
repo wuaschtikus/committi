@@ -16,3 +16,10 @@ Uses `tavernari/git-commit-message` as model.
 `pip install langchain_community` 
 `pip install gitpython`
 - copy `prepare-commit-msg` into `/path/to/.git/hooks`
+
+```
+ollama serve
+ollama pull tavernari/git-commit-message
+pip install langchain_community
+pip install gitpython
+
