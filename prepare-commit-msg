@@ -32,21 +32,18 @@ def explain_diff(diff):
 
 
 repoPath = pathlib.Path(__file__).parent
-if repoPath.suffix == "hooks":
-    spinner = Halo(text='Processing repository...', spinner='dots')
-    spinner.start()
-    repoPath = repoPath.parent
+spinner = Halo(text='Processing repository...', spinner='dots')
+spinner.start()
+if repoPath.name == "hooks":
+    repoPath = repoPath.parent.parent
     repo = git.Repo(repoPath)
     diff = repo.git.diff(repo.commit())
     commit_msg_filepath = sys.argv[1]
     with open(commit_msg_filepath, 'w') as f:
         f.write(explain_diff(diff))
-else: 
+else:
     repo = git.Repo(repoPath)
     diff = repo.git.diff(repo.commit())
     print(explain_diff(diff))
     
-
-
- 
-
+spinner.succeed('Processing complete!')
