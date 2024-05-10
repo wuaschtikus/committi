@@ -17,9 +17,14 @@ Uses `tavernari/git-commit-message` as model.
 `pip install gitpython`
 - copy `prepare-commit-msg` into `/path/to/.git/hooks`
 
+## To test directly
+- run `prepare-commit-msg` directly in your project root with 
+`python prepare-commit-msg`
+
 ```
 ollama serve
 ollama pull tavernari/git-commit-message
 pip install langchain_community
 pip install gitpython
+```
 
