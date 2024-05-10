@@ -31,7 +31,7 @@ def explain_diff(diff):
 
 
 repoPath = pathlib.Path(__file__).parent
-if repoPath.suffix == ".hooks":
+if repoPath.suffix == "hooks":
     repoPath = repoPath.parent
     repo = git.Repo(repoPath)
     diff = repo.git.diff(repo.commit())
