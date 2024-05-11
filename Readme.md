@@ -21,10 +21,3 @@ Uses `tavernari/git-commit-message` as model.
 - run `prepare-commit-msg` directly in your project root with 
 `python prepare-commit-msg`
 
-```
-ollama serve
-ollama pull tavernari/git-commit-message
-pip install langchain_community
-pip install gitpython
-```
-
